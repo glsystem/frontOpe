@@ -1,0 +1,21 @@
+{
+    "name": "devbr/router",
+    "description": "Access Controller for your website (Router)",
+    "keywords": ["request","access controller","router","website"],
+    "license": "MIT",
+    "type": "library",
+    "homepage": "http://dbrasil.tk/devbr/",
+    "authors": [{
+        "name": "Bill Rocha",
+        "email": "prbr@ymail.com"
+    }],
+    "require": {
+        "php": ">=5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Devbr\\": "",
+            "Config\\":"Config/"
+        }
+    }
+}

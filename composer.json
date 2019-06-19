@@ -1,0 +1,15 @@
+{
+    "config":{
+        "vendor-dir":"Composer/"
+    },
+    "autoload":{
+        "psr-4":{
+            "Src\\":"src/"
+        }
+    },
+    "require":{
+        "devbr/router":"*",
+        "ext-curl": "*",
+        "ext-json": "*"
+    }
+}

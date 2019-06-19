@@ -1,0 +1,4 @@
+#d12c38 - vermelho
+#f2f2f2 - cinza collapse
+#808080 - cinza font padrão
+#C9CECF - cinca font menu lateral
