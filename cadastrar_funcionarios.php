@@ -2,7 +2,9 @@
     require_once(__DIR__ . "/Composer/autoload.php");
 
     use Src\Controllers\controllerFuncionario;
+    use Src\Utils\Utils;
 
+    $utils = new Utils();
     $funcionario = new controllerFuncionario();
 ?>
 <!DOCTYPE html>
@@ -24,7 +26,7 @@
         <div class="welcome_exit">
             <div class="welcome">Bem Vindo(a), Usuário</div>
 
-            <div class="exit"><a href="login.php" data-toggle="modal" data-target="#exampleModalCenter"><img
+            <div class="exit"><a data-toggle="modal" data-target="#exampleModalCenter"><img
                             src="imagens/icons/exit.png" alt="Sair" title="Sair"></a></div>
 
             <!-- MODAL -->
@@ -90,6 +92,14 @@
                         <div style="width: 100%; height: 25px; padding-left: 18px;">
                             <div style="margin-right: 10px; float: left;"><img src="imagens/icons/fornecedor.png"></div>
                             <div style="margin-top: 2px; float: left;">Fornecedores</div>
+                        </div>
+                    </li>
+                </a>
+                <a href="cadastro_estoque.php">
+                    <li >
+                        <div style="width: 100%; height: 25px; padding-left: 18px;">
+                            <div style="margin-right: 10px; float: left;"><img src="imagens/icons/receita.png"></div>
+                            <div style="margin-top: 2px; float: left;">Estoque</div>
                         </div>
                     </li>
                 </a>
@@ -272,7 +282,7 @@
                         } else {
                             ?>
                             <tr>
-                                <td colspan="6" style="text-align: center">Não retornou nenhum funcionario</td>
+                                <td colspan="6" style="text-align: center">Nenhum funcionário cadastrado</td>
                             </tr>
                             <?php
                         }

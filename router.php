@@ -5,15 +5,24 @@ $mock = false;
 require_once(__DIR__ . "/Composer/autoload.php");
 
 use Src\Controllers\controllerFuncionario;
+use Src\Controllers\controllerLogin;
 
 if (isset($_GET['controller'])) {
     $controll_funcionario = new controllerFuncionario();
+    $controller_login = new controllerLogin();
 
     $controller = $_GET['controller'];
 
     switch ($controller) {
         case 'registrarPedidos':
             header("Location: http://localhost/server/cupom-fiscal.php");
+            break;
+
+        case 'login':
+
+            $controller_login->login();
+
+
             break;
 
         case 'cadatrarFuncionario':

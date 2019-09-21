@@ -22,7 +22,7 @@ class Utils
         ];
     }
 
-    public function header(String $page, String $message, bool $update = false){
+    public function header(String $page, String $message = "", bool $update = false){
 
         header('Location:index.php?page='. $page .'&message=' . $message . '&update=' . $update);
 

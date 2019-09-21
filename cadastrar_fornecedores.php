@@ -79,6 +79,14 @@
 							</div>
 						</li>
 					</a>
+                    <a href="cadastro_estoque.php">
+                        <li >
+                            <div style="width: 100%; height: 25px; padding-left: 18px;">
+                                <div style="margin-right: 10px; float: left;"><img src="imagens/icons/receita.png"></div>
+                                <div style="margin-top: 2px; float: left;">Estoque</div>
+                            </div>
+                        </li>
+                    </a>
 				</ul>
 			</nav>
 			<div class="container_conteudo">
