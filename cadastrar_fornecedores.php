@@ -11,84 +11,12 @@
 	</head>
 	<body>
 		<!-- CABEÇALHO -->
-		<header class="header">
-			<div class="logo">GL SYSTEM</div>
+		<?php include "header.php"; ?>
 
-			<div class="welcome_exit">
-				<div class="welcome">Bem Vindo(a), Usuário</div>
-
-                <div class="exit"><a href="login.php" data-toggle="modal" data-target="#exampleModalCenter"><img src="imagens/icons/exit.png" alt="Sair" title="Sair"></a></div>
-                
-                <!-- MODAL -->
-				<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="exampleModalLongTitle">Tem certeza que deseja sair?</h4>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="height: 40px; font-size: 15px;">Cancelar</button>
-								<a href="login.php"><button type="button" class="btn btn-primary" style="height: 40px; font-size: 15px;">Sim</button></a>
-                            </div>
-                        </div>
-                    </div>
-				</div>
-			</div>
-		</header>
 		<div class="safe_nav_conteudo">
 			<!-- MENU DE NAVEGAÇÃO LATERAL -->
-			<nav class="nav">
-				<ul>
-					<a href="registro_de_pedidos.php">
-						<li>
-							<div style="width: 100%; height: 25px; padding-left: 18px;">
-								<div style="margin-right: 10px; float: left;"><img src="imagens/icons/pedido.png"></div>
-								<div style="margin-top: 2px; float: left;">Pedidos</div>
-							</div>
-						</li>
-					</a>
-					<a href="cadastrar_produtos.php">
-						<li>
-							<div style="width: 100%; height: 25px; padding-left: 18px;">
-								<div style="margin-right: 10px; float: left;"><img src="imagens/icons/produto.png"></div>
-								<div style="margin-top: 2px; float: left;">Produtos</div>
-							</div>
-						</li>
-					</a>
-					<a href="cadastrar_funcionarios.php">
-						<li>
-							<div style="width: 100%; height: 25px; padding-left: 18px;">
-								<div style="margin-right: 10px; float: left;"><img src="imagens/icons/funcionario.png"></div>
-								<div style="margin-top: 2px; float: left;">Funcionários</div>
-							</div>
-						</li>
-					</a>
-					<a href="cadastrar_receitas.php">
-						<li>
-							<div style="width: 100%; height: 25px; padding-left: 18px;">
-								<div style="margin-right: 10px; float: left;"><img src="imagens/icons/receita.png"></div>
-								<div style="margin-top: 2px; float: left;">Receitas</div>
-							</div>
-						</li>
-                    </a>
-                    <a href="cadastrar_fornecedores.php">
-						<li class="active">
-							<div style="width: 100%; height: 25px; padding-left: 18px;">
-								<div style="margin-right: 10px; float: left;"><img src="imagens/icons/fornecedor.png"></div>
-								<div style="margin-top: 2px; float: left;">Fornecedores</div>
-							</div>
-						</li>
-					</a>
-                    <a href="cadastro_estoque.php">
-                        <li >
-                            <div style="width: 100%; height: 25px; padding-left: 18px;">
-                                <div style="margin-right: 10px; float: left;"><img src="imagens/icons/receita.png"></div>
-                                <div style="margin-top: 2px; float: left;">Estoque</div>
-                            </div>
-                        </li>
-                    </a>
-				</ul>
-			</nav>
+			<?php include "menu.php"; ?>
+
 			<div class="container_conteudo">
                 <div class="cadastra_produto">
 					<h4>Cadastro de Fornecedores</h4>

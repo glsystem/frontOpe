@@ -51,3 +51,6 @@ nav li {width: 100%; height: 47px; text-align: left; padding: 12px 0px 12px 0px;
 
 /* TELA DE CADASTRO DE FORNECEDORES */
 #id_cnpj {float: left; border-top-right-radius: 0px; border-bottom-right-radius: 0px;}
+
+/* TELA DE CADASTRO DE ESTOQUE */
+#id_cnpj {float: left; border-top-right-radius: 0px; border-bottom-right-radius: 0px;}

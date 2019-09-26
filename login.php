@@ -1,8 +1,8 @@
 <?php
 if(isset($_GET['erro'])){ ?>
 
-    <div class="alert alert-danger"  role="alert">
-        Usuario e/ou senha invalidos
+    <div class="alert alert-danger" role="alert">
+        Erro
     </div>
 
 <?php }
@@ -24,7 +24,7 @@ if(isset($_GET['erro'])){ ?>
     <div class="content_login">
         <div class="form_login">
             <div class="header_login">
-                <div class="logo_login">GL SYSTEM<div class="line"></div></div> <br>
+                <div class="logo_login">GL SYSTEM</div> <br>
                 <p style="color: #808080; font-size: 13px; padding-bottom: 5px;">Realize o Login para prosseguir</p>
             </div>
             <!-- FORMULÁRIO DE LOGIN -->

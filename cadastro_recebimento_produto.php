@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GL SYSTEM | Cadastro de Estoque</title>
+    <title>GL SYSTEM | Cadastro de Recebimento de Produto</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -18,7 +18,7 @@
 
     <div class="container_conteudo">
         <div class="cadastra_produto">
-            <h4>Cadastro de Estoque</h4>
+            <h4>Cadastro de Recebimento de Produto</h4>
 
             <div class="seg_form">
                 <label>Dados da estoque:</label>
@@ -26,17 +26,20 @@
                 <form>
                 <div style="padding-left: 0px;" class="form-group col-md-12">
                         <select id="id_cargo" class="form-control" name="cargo" required>
+                            <option selected>Fornecedor</option>
+                            <option value="">Fornecedor 1</option>
+                            <option value="">Fornecedor 2</option>
+                        </select>
+                    </div>
+                    <div style="padding-left: 0px;" class="form-group col-md-12">
+                        <select id="id_cargo" class="form-control" name="cargo" required>
                             <option selected>Produto</option>
                             <option value="">Produto 1</option>
                             <option value="">Produto 2</option>
                         </select>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="id_nome_produto" placeholder="Quantidade" maxlength="50" required>
-                        </div>
-                    </div>
-
+                    
+                    
                     <input type="submit" class="btn_cadastro_prod" name="btn_enviar" value="Cadastrar">
                 </form>
             </div>
