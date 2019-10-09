@@ -38,11 +38,13 @@ class controllerFuncionario
     {
 
         return $postEnd = array(
-            'cep' => $_POST['cep'],
-            'logradouro' => $_POST['rua'],
             'cidade' => $_POST['cidade'],
-            'uf' => $_POST['uf'],
-            'numero' => intval($_POST['num_home'])
+            'estado' => $_POST['uf'],
+            'cep' => $_POST['cep'],
+            'endereco' => $_POST['rua'],
+            'bairro' => $_POST['bairro'],
+            'numero' => intval($_POST['num_home']),
+            'complemento' => $_POST['complemento']
         );
     }
 
@@ -55,26 +57,26 @@ class controllerFuncionario
         if ($update){
             //$this->breakTest($resposta->data->id);
             return array(
-                'nome' => $_POST['nome_funcionario'],
+                'nome_completo' => $_POST['nome_funcionario'],
                 'rg' => $_POST['rg'],
                 'cpf' => $_POST['cpf'],
-                'telefone' => $_POST['tel'],
+                'contato' => $_POST['tel'],
                 'salario' => floatval($_POST['salario']),
-                'cargo' => $_POST['cargo'],
-                'dtNasc' => $_POST['dataNasc'],
-                'dtAdimicao' => $_POST['dataAdm']
+                'id_cargo' => $_POST['cargo'],
+                'dt_nascimento' => $_POST['dataNasc'],
+                'dt_admissao' => $_POST['dataAdm']
             );
         }else{
             return array(
-                'idEndereco' => $resposta->data->id,
-                'nome' => $_POST['nome_funcionario'],
+                'id_endereco' => $resposta->data->id,
+                'nome_completo' => $_POST['nome_funcionario'],
                 'rg' => $_POST['rg'],
                 'cpf' => $_POST['cpf'],
-                'telefone' => $_POST['tel'],
+                'contato' => $_POST['tel'],
                 'salario' => floatval($_POST['salario']),
-                'cargo' => $_POST['cargo'],
-                'dtNasc' => $_POST['dataNasc'],
-                'dtAdimicao' => $_POST['dataAdm']
+                'id_Cargo' => 1,
+                'dt_nascimento' => $_POST['dataNasc'],
+                'dt_admissao' => $_POST['dataAdm']
             );
         }
 
@@ -98,7 +100,7 @@ class controllerFuncionario
 
         $resEndereco = $this->modelEndereco->Insert($postEnd);
 
-        //$this->breakTest($resEndereco);
+//        $this->breakTest($resEndereco);
         if (json_decode($resEndereco)->success) {
             return $resEndereco;
         } else {
@@ -192,7 +194,7 @@ class controllerFuncionario
 
         $resFuncionario = $this->modelFuncionario->Insert($postFun);
 
-        //$this->breakTest($resFuncionario);
+        $this->breakTest($resFuncionario);
 
         if (json_decode($resFuncionario)->success) {
             $this->Utils->header($this->page, json_decode($resFuncionario)->message);
@@ -223,7 +225,7 @@ class controllerFuncionario
 
             if (json_decode($resFuncionario)->success) {
 
-                $resEndereco = $this->BuscarEnderecoPorId(false, json_decode($resFuncionario)->data->idEndereco);
+                $resEndereco = $this->BuscarEnderecoPorId(false, json_decode($resFuncionario)->data->id_endereco);
 
                 return $this->Utils->tratativeSuccess($resEndereco, $resFuncionario);
             } else {

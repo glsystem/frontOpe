@@ -1,12 +1,10 @@
 <?php
-if(isset($_GET['erro'])){ ?>
+if(isset($_GET['erro'])){
 
-    <div class="alert alert-danger" role="alert">
-        Erro
-    </div>
+    echo "<script>alert(\"Erro no Login\");</script>";}
 
-<?php }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">

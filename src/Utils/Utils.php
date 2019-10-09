@@ -36,20 +36,20 @@ class Utils
         $fields = $this->getFields();
 
         $data = ['id'=>     $funcionario->data->id,
-            'idEndereco'=>  $funcionario->data->idEndereco,
+            'idEndereco'=>  $funcionario->data->id_endereco,
             'cep'=>         $endereco->data->cep,
-            'logradouro'=>  $endereco->data->logradouro,
+            'logradouro'=>  $endereco->data->endereco,
             'cidade'=>      $endereco->data->cidade,
-            'uf'=>          $endereco->data->uf,
+            'uf'=>          $endereco->data->estado,
             'numero'=>      $endereco->data->numero,
-            'nome'=>        $funcionario->data->nome,
+            'nome'=>        $funcionario->data->nome_completo,
             'rg'=>          $funcionario->data->rg,
             'cpf'=>         $funcionario->data->cpf,
-            'telefone'=>    $funcionario->data->telefone,
+            'telefone'=>    $funcionario->data->contato,
             'salario'=>     $funcionario->data->salario,
-            'cargo'=>       $funcionario->data->cargo,
-            'dtNasc'=>      $funcionario->data->dtNasc,
-            'dtAdimicao'=>  $funcionario->data->dtAdimicao] ;
+            'cargo'=>       $funcionario->data->id_Cargo,
+            'dtNasc'=>      $funcionario->data->dt_nascimento,
+            'dtAdimicao'=>  $funcionario->data->dt_admissao] ;
 
         $fields['success'] = $endereco->success;
         $fields['message'] = $endereco->message;

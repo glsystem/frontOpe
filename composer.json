@@ -11,6 +11,7 @@
         "devbr/router":"*",
         "ext-curl": "*",
         "ext-json": "*",
-      "ext-mysqli": "*"
+      "ext-mysqli": "*",
+      "ext-pdo": "*"
     }
 }

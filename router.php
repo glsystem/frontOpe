@@ -10,6 +10,7 @@ use Src\Controllers\controllerLogin;
 if (isset($_GET['controller'])) {
     $controll_funcionario = new controllerFuncionario();
     $controller_login = new controllerLogin();
+    $newControl = new \Src\Api\Controllers\ControllerLogin();
 
     $controller = $_GET['controller'];
 
@@ -20,8 +21,9 @@ if (isset($_GET['controller'])) {
 
         case 'login':
 
+//            var_dump($newControl->login());
             $controller_login->login();
-
+            exit();
 
             break;
 
@@ -50,7 +52,15 @@ if (isset($_GET['controller'])) {
             $responseFun = $controll_funcionario->DeleteFuncionario();
 
             echo $responseFun;
+        case 'cadatrarFornecedor':
 
+            $response = $controll_funcionario->BuscarEnderecoPorId();
+
+            //echo ("<pre>");
+            print_r($response);
+            exit();
+
+            break;
         case 'teste':
 
             $response = $controll_funcionario->BuscarEnderecoPorId();

@@ -24,7 +24,8 @@
 					<div class="seg_form">
 						<label>Dados do fornecedor:</label>
                         <!-- FORMULÁRIO DE CADASTRAR FORNECEDORES -->
-						<form>
+						<form action="<?php if(isset($_GET['method']) == 'update') echo("router.php?controller=editarFornecedor");
+                                            else echo("router.php?controller=cadatrarFornecedor");?>">
 							<div class="form-row">
 								<div class="form-group col-md-3" style="padding-left: 0px; padding-right: 0px;">
 									<div class="form-group">
@@ -37,11 +38,11 @@
 
 							<div class="form-row">
 								<div class="form-group">
-									<input type="text" class="form-control" id="id_nome_fantasia" placeholder="Nome fantasia" required readonly>
+									<input type="text" class="form-control" id="id_nome_fantasia" name="text_nome_fantasia" placeholder="Nome fantasia" required readonly>
 								</div>
 
 								<div class="form-group">
-									<input type="text" class="form-control" id="id_razao_social" placeholder="Razão social" required readonly>
+									<input type="text" class="form-control" id="id_razao_social" name="text_razao_social" placeholder="Razão social" required readonly>
 								</div>
 								
 								<div class="form-group col-md-3" style="padding-left: 0px; padding-right: 0px;">
@@ -49,23 +50,23 @@
 								</div>
 								
 								<div class="form-group col-md-7">
-									<input type="text" class="form-control" id="id_logradouro" placeholder="Logradouro" required readonly>
+									<input type="text" class="form-control" id="id_logradouro"  name="text_logradouro" placeholder="Logradouro" required readonly>
 								</div>
 								
 								<div class="form-group col-md-2">
-									<input type="text" class="form-control" id="id_num" placeholder="Nº" maxlength="4" required>
+									<input type="text" class="form-control" id="id_num"  name="text_numero" placeholder="Nº" maxlength="4" required>
 								</div>
 								
 								<div class="form-group col-md-6" style="padding-left: 0px; padding-right: 0px;">
-									<input type="text" class="form-control" id="id_cidade" placeholder="Cidade" required readonly>
+									<input type="text" class="form-control" id="id_cidade" name="text_cidade" placeholder="Cidade" required readonly>
 								</div>
 								
 								<div class="form-group col-md-6">
-									<input type="text" class="form-control" id="id_estado" placeholder="Estado" required readonly>
+									<input type="text" class="form-control" id="id_estado" name="text_estado" placeholder="Estado" required readonly>
 								</div>
 
 								<div class="form-group col-md-3" style="padding-left: 0px; padding-right: 0px;">
-									<select id="id_tipo_pessoa" class="form-control" required>
+									<select id="id_tipo_pessoa" name="text_tipo_pessoa" class="form-control" required>
 										<option selected>Pessoa</option>
 										<option>Física</option>
 										<option>Jurídica</option>
@@ -73,7 +74,7 @@
 								</div>
 
 								<div class="form-group col-md-9">
-									<input type="email" class="form-control" id="id_email" placeholder="Email" maxlength="50" required>
+									<input type="email" class="form-control" name="text_email" id="id_email" placeholder="Email" maxlength="50" required>
 								</div>
 
 								<div class="form-group col-md-3" style="padding-left: 0px; padding-right: 0px;">
@@ -85,7 +86,7 @@
 								</div>
 
 								<div class="form-group col-md-6">
-									<input type="text" class="form-control" id="id_nome_contato" placeholder="Nome do contato" maxlength="15" required>
+									<input type="text" class="form-control" id="id_nome_contato" name="text_nome_contato" placeholder="Nome do contato" maxlength="15" required>
 								</div>
 							</div>
                             

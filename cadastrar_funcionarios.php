@@ -124,6 +124,16 @@
                                        value="<?php if (isset( $resEditFuncionario )) echo($resEditFuncionario->data->uf); ?>"
                                        required readonly>
                             </div>
+
+
+                            <div class="form-group col-md-6" style="padding-left: 0px;">
+                                <input type="text" class="form-control" id="id_bairro" placeholder="Bairro" name="bairro" value="" required>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="id_complemento" placeholder="Complemento" name="complemento" value="" required>
+                            </div>
+
                         </div>
 
                         <!-- EMPRESA -->
@@ -178,10 +188,10 @@
                             foreach ($resFuncionario->data as $data) {
                                 ?>
                                 <tr>
-                                    <td><?php echo($data->nome); ?></td>
+                                    <td><?php echo($data->nome_completo); ?></td>
                                     <td style="text-align: center;"><?php echo($data->cpf); ?></td>
-                                    <td style="text-align: center;"><?php echo($data->cargo); ?></td>
-                                    <td style="text-align: center;"><?php echo($data->dtAdimicao); ?></td>
+                                    <td style="text-align: center;"><?php echo($data->id_Cargo); ?></td>
+                                    <td style="text-align: center;"><?php echo($data->dt_admissao); ?></td>
                                     <td style="text-align: center;">
                                         <a href="<?php echo("cadastrar_funcionarios.php?method=update&idFun=" . $data->id); ?>">
 
