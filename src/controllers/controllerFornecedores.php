@@ -1,18 +1,18 @@
 <?php
 
-namespace Src\Controllers;
+namespace Src\controllers;
+
 
 use Src\models\modelEndereco;
-use Src\models\modelFuncionario;
+use Src\models\modelFornecedor;
 use Src\models\modelMock;
 use Src\Utils\Utils;
 
-
-class controllerFuncionario
+class controllerFornecedores
 {
 
     private $modelEndereco;
-    private $modelFuncionario;
+    private $modelFornecedor;
     private $Utils;
     private $page;
 
@@ -20,63 +20,58 @@ class controllerFuncionario
     {
         #Cria uma Instancia das Models
         $this->modelEndereco = new modelEndereco();
-        $this->modelFuncionario = new modelFuncionario();
+        $this->modelFuncionario = new modelFornecedor();
         $this->Utils = new Utils();
-        $this->page = "cad_funcionarios";
+        $this->page = "cad_forncedores";
     }
 
-    // Passando as resposta do servidor como parametro ele printa formatando com json
-    private function breakTest($res)
-    {
-        //echo "<pre>";
-        print_r($res);
-        exit();
-    }
 
     // Pega os dados enviados pelo formulario da pagina
     private function pegaEndereco()
     {
 
         return $postEnd = array(
-            'cidade' => $_POST['cidade'],
-            'estado' => $_POST['uf'],
+            'cidade' => $_POST['text_cidade'],
+            'estado' => $_POST['text_estado'],
             'cep' => $_POST['cep'],
-            'endereco' => $_POST['rua'],
+            'endereco' => $_POST['text_logradouro'],
             'bairro' => $_POST['bairro'],
-            'numero' => intval($_POST['num_home']),
+            'numero' => intval($_POST['text_numero']),
             'complemento' => $_POST['complemento']
         );
     }
 
     // Pega os dados enviados pelo formulario da pagina
-    private function pegaFuncionario($resposta = null, $update = false)
+    private function pegaFornecedor($resposta = null, $update = false)
     {
 
         //$resposta = json_decode($resposta);
 
         if ($update){
-            //$this->breakTest($resposta->data->id);
             return array(
-                'nome_completo' => $_POST['nome_funcionario'],
-                'rg' => $_POST['rg'],
-                'cpf' => $_POST['cpf'],
-                'contato' => $_POST['tel'],
-                'salario' => floatval($_POST['salario']),
-                'id_cargo' => $_POST['cargo'],
-                'dt_nascimento' => $_POST['dataNasc'],
-                'dt_admissao' => $_POST['dataAdm']
+                'cnpj' => $_POST['nome_funcionario'],
+                'nome_fornecedor' => $_POST['rg'],
+                'nome_fantasia' => $_POST['cpf'],
+                'e_mail' => $_POST['tel'],
+                'cep' => floatval($_POST['salario']),
+                'contato' => $_POST['cargo'],
+                'celular' => $_POST['dataNasc'],
+                'nome_contato' => $_POST['dataAdm'],
+                'id_clas_fornecedor' => intval($_POST['dataAdm'])
+//                'id_endereco' => $_POST['dataAdm']
             );
         }else{
             return array(
-                'id_endereco' => $resposta->data->id,
-                'nome_completo' => $_POST['nome_funcionario'],
-                'rg' => $_POST['rg'],
-                'cpf' => $_POST['cpf'],
+                'cnpj' => $_POST['cnpj'],
+                'nome_fornecedor' => $_POST['text_razao_social'],
+                'nome_fantasia' => $_POST['text_nome_fantasia'],
+                'e_mail' => $_POST['text_email'],
+                'cep' => floatval($_POST['cep']),
                 'contato' => $_POST['tel'],
-                'salario' => floatval($_POST['salario']),
-                'id_Cargo' => 1,
-                'dt_nascimento' => $_POST['dataNasc'],
-                'dt_admissao' => $_POST['dataAdm']
+                'celular' => $_POST['cel'],
+                'nome_contato' => $_POST['text_nome_contato'],
+                'id_clas_fornecedor' => intval($_POST['text_tipo_pessoa']),
+                'id_endereco' => $resposta->data->id
             );
         }
 
@@ -99,8 +94,7 @@ class controllerFuncionario
         }
 
         $resEndereco = $this->modelEndereco->Insert($postEnd);
-
-//        $this->breakTest($resEndereco);
+//        $this->Utils->breakTest($resEndereco);
         if (json_decode($resEndereco)->success) {
             return $resEndereco;
         } else {
@@ -180,7 +174,7 @@ class controllerFuncionario
      * @param bool $mock
      * @return bool|string
      */
-    public function Funcionairo($responseEnd, $mock = false)
+    public function Fornecedor($responseEnd, $mock = false)
     {
 
         $resposta = json_decode($responseEnd);
@@ -189,12 +183,12 @@ class controllerFuncionario
             $modelMock = new modelMock();
             $postFun = $modelMock->mockFuncionario($resposta);
         } else {
-            $postFun = $this->pegaFuncionario($resposta);
+            $postFun = $this->pegaFornecedor($resposta);
         }
 
         $resFuncionario = $this->modelFuncionario->Insert($postFun);
 
-//        $this->breakTest($resFuncionario);
+//        $this->Utils->breakTest($resFuncionario);
 
         if (json_decode($resFuncionario)->success) {
             $this->Utils->header($this->page, json_decode($resFuncionario)->message);
@@ -203,7 +197,7 @@ class controllerFuncionario
         }
     }
 
-    public function ListarFuncionario($mock = false)
+    public function ListarFornecedor($mock = false)
     {
 
         $resFuncionario = $this->modelFuncionario->Listar();
@@ -219,15 +213,14 @@ class controllerFuncionario
     public function BuscarFuncionarioPorId($mock = false, $id = 0)
     {
 
-        if (isset($_GET['idFun'])) {
+        if (isset($_GET['idFor'])) {
 
-            $resFuncionario = $this->modelFuncionario->ListarPorId($_GET['idFun']);
+            $resFuncionario = $this->modelFuncionario->ListarPorId($_GET['idFor']);
 
             if (json_decode($resFuncionario)->success) {
 
-                $resEndereco = $this->BuscarEnderecoPorId(false, json_decode($resFuncionario)->data->id_endereco);
+                return $resEndereco = $this->BuscarEnderecoPorId(false, json_decode($resFuncionario)->data->id_endereco);
 
-                return $this->Utils->tratativeSuccess($resEndereco, $resFuncionario);
             } else {
                 $this->Utils->header($this->page, json_decode($resFuncionario)->message);
             }
@@ -246,13 +239,12 @@ class controllerFuncionario
     {
         if (isset($_POST['idHyperMock'])){
 
-            $postFun = $this->pegaFuncionario(null, true);
+            $postFun = $this->pegaFornecedor(null, true);
 
             $resFuncionario = $this->modelFuncionario->Editar($postFun, $_POST['idHyperMock']);
 
             if (json_decode($resFuncionario)->success){
                 $ganbs = $this->BuscarFuncionarioPorId(false, $_POST['idHyperMock']);
-//                $this->breakTest($ganbs);
                 if (json_decode($ganbs)->success){
 
                     $resEndereco = $this->EditarEndereco(false, json_decode($ganbs)->data->idEndereco);
@@ -271,17 +263,17 @@ class controllerFuncionario
 
     public function DeleteFuncionario($mock = false)
     {
-        if (isset($_GET['idFun'])){
+        if (isset($_GET['idFor'])){
 
             $ganbs = $this->BuscarFuncionarioPorId();
 
             if (json_decode($ganbs)->success){
 
-                $resFuncionario = $this->modelFuncionario->Delete($_GET['idFun']);
-
+                $resFuncionario = $this->modelFuncionario->Delete($_GET['idFor']);
+//                $this->Utils->breakTest($resFuncionario);
                 if (json_decode($resFuncionario)->success){
 
-                    $resEndereco = $this->DeleteEndereco(json_decode($ganbs)->data->idEndereco);
+                    $resEndereco = $this->DeleteEndereco(json_decode($ganbs)->data->id_endereco);
 
                     if (json_decode($resEndereco)->success){
                         $this->Utils->header($this->page, json_encode(json_decode($resEndereco)->message));
@@ -293,4 +285,5 @@ class controllerFuncionario
             $this->Utils->header($this->page, json_encode(json_decode($ganbs)->success));
         }
     }
+
 }

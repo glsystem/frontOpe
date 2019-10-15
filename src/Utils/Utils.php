@@ -63,5 +63,12 @@ class Utils
 
     }
 
+    // Passando as resposta do servidor como parametro ele printa formatando com json
+    public function breakTest($res)
+    {
+        //echo "<pre>";
+        print_r($res);
+        exit();
+    }
 
 }

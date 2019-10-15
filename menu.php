@@ -1,7 +1,20 @@
+<?php
+
+    $paginaLink = basename($_SERVER['SCRIPT_NAME']);
+
+?>
+
+<style>
+
+    ul#menu li a:hover,
+    ul#menu li a.active {background-color:#ffffff;}
+
+</style>
+
 <nav class="nav">
     <ul>
         <!-- REGISTRAR PEDIDOS -->
-        <a href="registro_de_pedidos.php">
+        <a <?php if($paginaLink == "registro_de_pedidos.php") {echo 'class="link ativo"';}else{echo 'class="link"';} ?> href="registro_de_pedidos.php">
             <li>
                 <div style="width: 100%; height: 25px; padding-left: 18px;">
                     <div style="width: 20px; height: 20px; margin-right: 10px; float: left;"><img src="imagens/icons/pedido.svg"></div>

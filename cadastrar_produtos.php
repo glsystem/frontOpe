@@ -23,31 +23,32 @@
 					<div class="seg_form">
 						<label>Dados do produto:</label>
 						<!-- FORMULÁRIO PARA CADASTRAR PRODUTOS -->
-						<form>
-							<div class="form-group">
-								<input type="text" class="form-control" id="id_nome_produto" placeholder="Nome do produto" maxlength="50" required>
-							</div>
+						<form method="post" action="<?php if(isset($_GET['method']) == 'update') echo("router.php?controller=editarProduto");
+                        else echo("router.php?controller=cadatrarProduto");?>">
+<!--							<div class="form-group">-->
+<!--								<input type="text" class="form-control" id="id_nome_produto" name="text_nome_produto" placeholder="Nome do produto" maxlength="50" required>-->
+<!--							</div>-->
 							<div class="form-row">
-								<div class="form-group col-md-3" style="padding-left: 0px; padding-right: 0px;">
-									<input type="text" class="form-control" id="id_qtd_produto" placeholder="Quantidade" maxlength="3" required>
+<!--								<div class="form-group col-md-3" style="padding-left: 0px; padding-right: 0px;">-->
+<!--									<input type="text" class="form-control" id="id_qtd_produto" name="text_qtd_produto"placeholder="Quantidade" maxlength="3" required>-->
+<!--								</div>-->
+								<div class="form-group col-md-3" style="padding-left: 0px">
+									<input type="text" class="form-control" id="id_preco_produto" name="text_preco_produto" placeholder="Preço" maxlength="10" required>
 								</div>
-								<div class="form-group col-md-3">
-									<input type="text" class="form-control" id="id_preco_produto" placeholder="Preço" maxlength="10" required>
-								</div>
-								<div class="form-group col-md-3">
-									<select id="id_tipo_produto" class="form-control" required>
-										<option selected>Tipo do produto</option>
-										<option>Tipo 1</option>
-										<option>Tipo 2</option>
-										<option>Tipo 3</option>
+								<div class="form-group col-md-4">
+									<select id="id_tipo_produto" class="form-control" name="sl_receita" required>
+										<option selected>Receita</option>
+										<option value="1">Receita 1</option>
+										<option value="2">Receita 2</option>
+										<option value="3">Receita 3</option>
 									</select>
 								</div>
-								<div class="form-group col-md-3">
-									<select id="id_fornecedor" class="form-control" required>
-										<option selected>Fornecedor</option>
-										<option>Fornecedor 1</option>
-										<option>Fornecedor 2</option>
-										<option>Fornecedor 3</option>
+								<div class="form-group col-md-4">
+									<select id="id_fornecedor" class="form-control" name="sl_sub_categoria" required>
+										<option selected>Sub Categoria</option>
+										<option value="1">Sub Categoria 1</option>
+										<option value="2">Sub Categoria 2</option>
+										<option value="3">Sub Categoria 3</option>
 									</select>
 								</div>
 							</div>

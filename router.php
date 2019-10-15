@@ -4,13 +4,16 @@ $mock = false;
 
 require_once(__DIR__ . "/Composer/autoload.php");
 
+use Src\controllers\controllerFornecedores;
 use Src\Controllers\controllerFuncionario;
 use Src\Controllers\controllerLogin;
+use Src\controllers\controllerProduto;
 
 if (isset($_GET['controller'])) {
     $controll_funcionario = new controllerFuncionario();
     $controller_login = new controllerLogin();
-    $newControl = new \Src\Api\Controllers\ControllerLogin();
+    $controller_fornecedor = new controllerFornecedores();
+    $controller_produto = new controllerProduto();
 
     $controller = $_GET['controller'];
 
@@ -52,12 +55,28 @@ if (isset($_GET['controller'])) {
             $responseFun = $controll_funcionario->DeleteFuncionario();
 
             echo $responseFun;
+
         case 'cadatrarFornecedor':
 
-            $response = $controll_funcionario->BuscarEnderecoPorId();
+            $responseEnd = $controller_fornecedor->cadEndereco($mock);
 
-            //echo ("<pre>");
-            print_r($response);
+            $response = $controller_fornecedor->Fornecedor($responseEnd, $mock);
+
+            exit();
+
+            break;
+        case 'deleteFornecedor':
+
+            $responseEnd = $controller_fornecedor->DeleteFuncionario();
+
+
+            exit();
+
+            break;
+        case 'cadatrarProduto':
+
+            $controller_produto->cadProduto();
+
             exit();
 
             break;
