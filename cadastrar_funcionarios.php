@@ -69,7 +69,7 @@
                             </div>
 
                             <div class="form-group col-md-3" style="padding-left: 0px; padding-right: 0px;">
-                                <input type="text" name="dataNasc" class="form-control"
+                                <input type="date" name="dataNasc" class="form-control"
                                        id="id_dt_nascimento"
                                        value="<?php if (isset( $resEditFuncionario )) echo($resEditFuncionario->data->dtNasc); ?>"
                                        placeholder="Data de nascimento" maxlength="10" required>
@@ -140,7 +140,7 @@
                         <label>Empresa:</label>
                         <div class="form-row">
                             <div class="form-group col-md-3" style="padding-left: 0px; padding-right: 0px;">
-                                <input type="text" name="dataAdm" class="form-control" id="id_dt_admissao"
+                                <input type="date" name="dataAdm" class="form-control" id="id_dt_admissao"
                                        value="<?php if (isset( $resEditFuncionario )) echo($resEditFuncionario->data->dtAdimicao); ?>"
                                        placeholder="Data de admissão" maxlength="10" required>
                             </div>

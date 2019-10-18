@@ -8,7 +8,7 @@ img {max-width: 100%;}
 p {margin: 0px; padding: 0px; font-size: 15px;}
 
 /* ESTILIZAÇÃO PADRÃO */
-header {width: 100%; height: 50px; box-shadow: 0px 2px 6px #cccccc;}
+.header {width: 100%; height: 50px; box-shadow: 0px 2px 6px #cccccc;}
 .logo {width: 15%; height: 50px; padding: 10px; float: left; text-align: center; font-size: 23px; font-weight: bold; color: #50585A;}
 .welcome_exit {height: 50px; float: right;}
 .welcome {height: 50px; padding: 14px; float: left; text-align: left; font-size: 15px; color: #808080;}
