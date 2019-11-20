@@ -47,7 +47,7 @@ $controllerProduto = new controllerProduto();
                                     <a role="button" data-toggle="collapse" data-parent="#accordion"
                                        href="#collapse<?php echo($data->id); ?>" aria-expanded="false"
                                        aria-controls="collapse<?php echo($data->id); ?>">
-                                        <?php echo($data->nome_subcategoria); ?>
+                                        <?php echo($data->nome_categoria); ?>
                                     </a>
                                 </h4>
                             </div>
@@ -58,10 +58,10 @@ $controllerProduto = new controllerProduto();
                                 <?php
                                 if ($resProduto->success and $resProduto->count > 0) {
                                     foreach ($resProduto->data as $dataProduto) {
-                                        if ($dataProduto->id_subcategoria == $data->id) {
+                                        if ($dataProduto->id_categoria == $data->id) {
                                             ?>
                                             <div class="panel-body">
-                                                Coxinha <?php echo($dataProduto->id); ?>
+                                                <?php echo($dataProduto->nome_receita); ?>
                                                 <div style="float: right;">
                                                     <a href="#" style="width: 25px; height: 25px;"><img
                                                                 src="imagens/icons/add.png"

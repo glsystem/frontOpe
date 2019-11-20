@@ -28,7 +28,7 @@ class controllerProduto
         return $postEnd = array(
             'id_receita' => intval($_POST['sl_receita']),
             'Valor' => floatval($_POST['text_preco_produto']),
-//            'id_categoria' => intval($_POST['sl_categoria']),
+            'id_categoria' => intval(1),
             'id_subcategoria' => intval($_POST['sl_sub_categoria'])
 //            'bairro' => $_POST['sl_fornecedor'], não tem no banco
 //            'numero' => intval($_POST['num_home']),

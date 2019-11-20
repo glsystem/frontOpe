@@ -1,3 +1,16 @@
+<?php
+require_once(__DIR__ . "/Composer/autoload.php");
+
+use Src\controllers\controllerProduto;
+use Src\controllers\controllerSubCategoria;
+use Src\Utils\Utils;
+
+$utils = new Utils();
+$controller = new controllerSubCategoria();
+$controllerProduto = new controllerProduto();
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -27,8 +40,19 @@
                 <div style="padding-left: 0px;" class="form-group col-md-12">
                         <select id="id_cargo" class="form-control" name="cargo" required>
                             <option selected>Produto</option>
-                            <option value="">Produto 1</option>
-                            <option value="">Produto 2</option>
+                            <?php $resSubCat = json_decode($controller->ListarSubCategoria()); ?>
+                            <?php $resProduto = json_decode($controllerProduto->ListarProduto()); ?>
+
+                            <?php
+                            if ($resProduto->success and $resProduto->count > 0) {
+                                foreach ($resProduto->data as $dataProduto) {
+                                    ?>
+
+                                    <option value="<?php echo($dataProduto->id); ?>"> <?php echo($dataProduto->nome_receita); ?> </option>
+                                    <?php
+                                }
+                            }
+                            ?>
                         </select>
                     </div>
                     <div class="form-row">
