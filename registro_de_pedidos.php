@@ -2,13 +2,136 @@
 require_once(__DIR__ . "/Composer/autoload.php");
 
 use Src\controllers\controllerProduto;
-use Src\controllers\controllerSubCategoria;
+use Src\controllers\controllerCategoria;
 use Src\Utils\Utils;
 
 $utils = new Utils();
-$controller = new controllerSubCategoria();
+$controller = new controllerCategoria();
 $controllerProduto = new controllerProduto();
 ?>
+<script type="text/javascript">
+    function insere_item_na_lista(id){
+        var prod = $('#item'+id).html();
+        var produto = JSON.parse(JSON.parse(prod));
+        var total = $('#total_pedido').text().replace('R$','').trim();
+        var listaProdutos = []
+        var produtos = []
+        for(data in produto['data']){
+            if(produto['data'][data]['id'] == id){
+                var total = parseFloat(total)+ parseFloat(produto['data'][data]['valor']);
+                if(listaProdutos.length == 0){
+                    produtoSelecionado = {'id': id, 'nome': produto['data'][data]['nome_receita'], 'qtd': 1, 'valor': produto['data'][data]['valor']};
+                }
+            }
+        }
+        if(localStorage.getItem('produtosEscolhidos').length > 0){
+            localStorage.setItem('produtosEscolhidos', localStorage.getItem('produtosEscolhidos')+';'+JSON.stringify(produtoSelecionado));
+        }else{
+            localStorage.setItem('produtosEscolhidos', JSON.stringify(produtoSelecionado));
+        }
+        resultado = transformaTextoEmJson();
+        console.log('resultado')
+        console.log(resultado); 
+        $('#total_pedido').html('R$'+total)
+        var html = ""
+        for(prod in resultado){
+            html = html+"<tr>\
+            <td>"+resultado[prod]['nome']+"</td>\
+                <td style='text-align: center;'>"+resultado[prod]['qtd']+"</td>\
+                <td style='text-align: center;' ><div style='display:none;' id='item_venda_"+resultado[prod]['id']+"'>"+JSON.stringify(resultado[prod])+"</div>\
+                <div onclick=reduzDaLista("+resultado[prod]['id']+")><img src='imagens/icons/delete.png'\
+                alt='Excluir produto'\
+                title='Excluir produto'></div></td>\
+        </tr>"
+            };
+        $('#lista_produtos').html(html);
+    }
+
+    function transformaTextoEmJson(){
+        var retrievedObject = localStorage.getItem('produtosEscolhidos');
+        var transformados = retrievedObject.split(";")
+        var ObjectsJSON = []
+        for(item in transformados){
+            var convertido = JSON.parse(transformados[item]);
+            if(ObjectsJSON.length == 0){
+                ObjectsJSON.push(convertido);
+            }else{
+                var ProdutoExiste = false
+                for(obj in ObjectsJSON){
+                    if(ObjectsJSON[obj].id == convertido.id){
+                        ProdutoExiste = true
+                        ObjectsJSON[obj].qtd = ObjectsJSON[obj].qtd+1
+                    }
+                }
+                if(!ProdutoExiste){
+                    ObjectsJSON.push(convertido);
+                }
+            }
+        }
+        return ObjectsJSON;
+    }
+
+    function cadastrar(){
+        var listaProdutos = transformaTextoEmJson();
+        console.log('itens vendidos: ')
+        for(i in listaProdutos){
+            console.log(listaProdutos)
+        }
+        localStorage.setItem('produtosEscolhidos',"");
+        window.location.reload();
+    }
+    function reduzDaLista(id){
+        var prod = $('#item_venda_'+id).html();
+        var produto = JSON.parse(prod);
+        var total = $('#total_pedido').text().replace('R$','').trim();
+        
+        var listaProdutos = transformaTextoEmJson();
+        localStorage.setItem('produtosEscolhidos',"");
+        // var produtos = []
+        for(data in listaProdutos){
+             if(listaProdutos[data]['id'] == id){
+                var total = parseFloat(total)- parseFloat(produto['valor']);
+                if(listaProdutos[data]['qtd'] == 1){
+                    index_remover = listaProdutos.indexOf(listaProdutos[data]);
+                    listaProdutos.splice(index_remover, 1);
+                    console.log(listaProdutos)
+                }
+                else{
+                    listaProdutos[data]['qtd'] = listaProdutos[data]['qtd']-1
+                }
+            }
+        }
+
+        for(data in listaProdutos){
+            if(localStorage.getItem('produtosEscolhidos').length > 0){
+                localStorage.setItem('produtosEscolhidos', localStorage.getItem('produtosEscolhidos')+';'+JSON.stringify(listaProdutos[data]));
+            }else{
+                localStorage.setItem('produtosEscolhidos', JSON.stringify(listaProdutos[data]));
+            }
+        }
+        console.log('removido');
+        console.log(localStorage.getItem('produtosEscolhidos'));
+        console.log('removido 2');
+        console.log(listaProdutos);
+
+        $('#total_pedido').html('R$'+total)
+        var html = ""
+        for(prod in listaProdutos){
+            html = html+"<tr>\
+            <td>"+resultado[prod]['nome']+"</td>\
+                <td style='text-align: center;'>"+listaProdutos[prod]['qtd']+"</td>\
+                <td style='text-align: center;' ><div style='display:none;' id='item_venda_"+listaProdutos[prod]['id']+"'>"+JSON.stringify(resultado[prod])+"</div>\
+                <div onclick=reduzDaLista("+listaProdutos[prod]['id']+")><img src='imagens/icons/delete.png'\
+                alt='Excluir produto'\
+                title='Excluir produto'></div></td>\
+        </tr>"
+            };
+        $('#lista_produtos').html(html);
+    }
+</script>
+
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -33,9 +156,10 @@ $controllerProduto = new controllerProduto();
             <h4>Selecionar Produtos</h4>
 
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                <?php $resSubCat = json_decode($controller->ListarSubCategoria()); ?>
+                <?php $resSubCat = json_decode($controller->ListarCategoria()); ?>
                 <?php $resProduto = json_decode($controllerProduto->ListarProduto()); ?>
-
+                
+                <?php $resProdutoJ = json_encode($controllerProduto->ListarProduto()); ?>
                 <?php
                 if ($resSubCat->success and $resSubCat->count > 0) {
                     foreach ($resSubCat->data as $data) {
@@ -62,14 +186,17 @@ $controllerProduto = new controllerProduto();
                                             ?>
                                             <div class="panel-body">
                                                 <?php echo($dataProduto->nome_receita); ?>
-                                                <div style="float: right;">
-                                                    <a href="#" style="width: 25px; height: 25px;"><img
+                                                <div style="float: right;" onclick="insere_item_na_lista(<?php echo($dataProduto->id); ?>)">
+                                                    <a style="width: 25px; height: 25px;"><img
                                                                 src="imagens/icons/add.png"
                                                                 alt="Adicionar produto"
                                                                 title="Adicionar produto"></a>
                                                 </div>
+                                                <?php $resProdutoJSON = json_encode($controllerProduto->BuscarProdutoPorId($dataProduto->id)); ?>
+                                                <!-- echo($resProdutoJSON)?> -->
+                                                <div id='item<?php echo($dataProduto->id); ?>' style='display:none;'><?php echo $resProdutoJ ?></div>
                                                 <div style="float: right; margin-top: 1px; margin-right: 15px;">
-                                                    R$ <?php echo($dataProduto->valor); ?>,00
+                                                    R$ <?php echo($dataProduto->valor); ?>
                                                 </div>
                                             </div>
                                             <?php
@@ -95,7 +222,7 @@ $controllerProduto = new controllerProduto();
                 <form action="<?php echo("router.php?controller=registrarPedidos"); ?>" method="post"
                       enctype="multipart/form-data">
                     <input type="text" class="form-control" id="id_nome_cliente" placeholder="Nome do cliente"
-                           maxlength="30" required> <br>
+                           maxlength="30"> <br>
                     <table class="table">
                         <thead>
                         <tr>
@@ -104,28 +231,15 @@ $controllerProduto = new controllerProduto();
                             <th scope="col" style="text-align: center;"></th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td>Coxinha</td>
-                            <td style="text-align: center;">2</td>
-                            <td style="text-align: center;"><a href="#"><img src="imagens/icons/delete.png"
-                                                                             alt="Excluir produto"
-                                                                             title="Excluir produto"></a></td>
-                        </tr>
-                        <tr>
-                            <td>Suco de Laranja</td>
-                            <td style="text-align: center;">1</td>
-                            <td style="text-align: center;"><a href="#"><img src="imagens/icons/delete.png"
-                                                                             alt="Excluir produto"
-                                                                             title="Excluir produto"></a></td>
-                        </tr>
+                        <tbody id="lista_produtos">
+                        <!-- PRODUTOS ESCOLHIDOS-->
                         </tbody>
                     </table>
 
                     <!-- VALOR TOTAL DO PEDIDO -->
-                    <h4 style="float: left;">R$ 14,00</h4>
+                    <h4 style="float: left;" id="total_pedido">R$ 00.00</h4>
 
-                    <input type="submit" class="btn_success" name="btn_enviar" value="Finalizar Pedido">
+                    <input onclick="cadastrar()" class="btn_success" name="btn_enviar" value="Finalizar Pedido">
                 </form>
             </div>
         </div>
@@ -135,5 +249,8 @@ $controllerProduto = new controllerProduto();
 <!-- SCRIPTS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<!-- <script src="js/vendas.js"></script> -->
 </body>
 </html>
+
+
