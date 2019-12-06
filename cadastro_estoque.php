@@ -1,13 +1,11 @@
 <?php
 require_once(__DIR__ . "/Composer/autoload.php");
 
-use Src\controllers\controllerProduto;
-use Src\controllers\controllerSubCategoria;
+use Src\controllers\controllerIngrediente;
 use Src\Utils\Utils;
 
 $utils = new Utils();
-$controller = new controllerSubCategoria();
-$controllerProduto = new controllerProduto();
+$controllerIngrediente= new controllerIngrediente();
 ?>
 
 
@@ -40,15 +38,14 @@ $controllerProduto = new controllerProduto();
                 <div style="padding-left: 0px;" class="form-group col-md-12">
                         <select id="id_cargo" class="form-control" name="cargo" required>
                             <option selected>Produto</option>
-                            <?php $resSubCat = json_decode($controller->ListarSubCategoria()); ?>
-                            <?php $resProduto = json_decode($controllerProduto->ListarProduto()); ?>
+                            <?php $resIngrediente= json_decode($controllerIngrediente->ListarIngreditente()); ?>
 
                             <?php
-                            if ($resProduto->success and $resProduto->count > 0) {
-                                foreach ($resProduto->data as $dataProduto) {
+                            if ($resIngrediente->success and $resIngrediente->count > 0) {
+                                foreach ($resIngrediente->data as $dataIngrediente) {
                                     ?>
 
-                                    <option value="<?php echo($dataProduto->id); ?>"> <?php echo($dataProduto->nome_receita); ?> </option>
+                                    <option value="<?php echo($dataIngrediente->id); ?>"> <?php echo($dataIngrediente->nome_ingrediente); ?> </option>
                                     <?php
                                 }
                             }
@@ -65,41 +62,45 @@ $controllerProduto = new controllerProduto();
                 </form>
             </div>
 
-            <!-- RECEITAS CADASTRADAS -->
-            <!-- <h4>Produtos Cadastrados</h4>
+             <h4 align="center">Produtos em Estoque</h4>
 
             <div style="width: 100%; height: 300px; overflow-y: scroll; float: left;">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Nome do Produto</th>
+                            <th scope="col" style="text-align: center;">Nome do Ingrediente</th>
                             <th scope="col" style="text-align: center;">Quantidade</th>
-                            <th scope="col" style="text-align: center;">Preço</th>
-                            <th scope="col" style="text-align: center;">Tipo do produto</th>
-                            <th scope="col" style="text-align: center;">Fornecedor</th>
-                            <th scope="col" style="text-align: center;">Opções</th>
+                            <th scope="col" style="text-align: center;">Medida</th>
                         </tr>
                     </thead>
                     <tbody>
+                    <?php
+
+                    $resIngredienteComNome= json_decode($controllerIngrediente->ListarIngreditenteComNome());
+
+                    if ($resIngredienteComNome->success and $resIngredienteComNome->count > 0) {
+                        foreach ($resIngredienteComNome->data as $data) {
+                            ?>
+                            <tr>
+                                <td style="text-align: center;"><?php echo($data->nome_ingrediente); ?></td>
+                                <td style="text-align: center;"><?php echo($data->qtde); ?></td>
+                                <td style="text-align: center;"><?php echo($data->tipo_medida); ?></td>
+                            </tr>
+                            <?php
+
+                        }
+
+                    } else {
+                        ?>
                         <tr>
-                            <td>Teste</td>
-                            <td style="text-align: center;">Teste</td>
-                            <td style="text-align: center;">Teste</td>
-                            <td style="text-align: center;">Teste</td>
-                            <td style="text-align: center;">Teste</td>
-                            <td style="text-align: center;">
-                                <a href="#">
-
-                                    <img src="imagens/icons/update.png" alt="Editar produto" title="Editar produto">
-
-
-                                    <img src="imagens/icons/delete.png" alt="Excluir produto" title="Excluir produto">
-                                </a>
-                            </td>
+                            <td colspan="6" style="text-align: center">Nada retornado</td>
                         </tr>
+                        <?php
+                    }
+                    ?>
                     </tbody>
                 </table>
-            </div> -->
+            </div>
         </div>
     </div>
 </div>

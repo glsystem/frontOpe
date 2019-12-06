@@ -3,14 +3,22 @@ require_once(__DIR__ . "/Composer/autoload.php");
 
 use Src\controllers\controllerProduto;
 use Src\controllers\controllerCategoria;
+use Src\Controllers\controllerVenda;
+
 use Src\Utils\Utils;
+
+$venda = new controllerVenda();
 
 $utils = new Utils();
 $controller = new controllerCategoria();
 $controllerProduto = new controllerProduto();
 
 if (isset($_GET['error'])){
-    echo "<script>alert(\"Erro ao finalizar a compra\");</script>";
+    if ($_GET['error']){
+        echo "<script>alert(\"Compra feita com sucesso\");</script>";
+    }else{
+        echo "<script>alert(\"Erro ao finalizar a compra \");</script>";
+    }
 }
 ?>
 <script type="text/javascript">
@@ -88,6 +96,8 @@ if (isset($_GET['error'])){
             console.log(listaProdutos)
         }
         setCookie("compraope06122019", JSON.stringify(listaProdutos), 1)
+        localStorage.setItem('produtosEscolhidos', "");
+
         window.location.reload();
     }
 
@@ -260,6 +270,50 @@ if (isset($_GET['error'])){
                     <input onclick="cadastrar()" type="submit" class="btn_success" name="btn_enviar" value="Finalizar Pedido">
                 </form>
             </div>
+        </div>
+
+
+        <!-- FUNCIONÁRIOS CADASTRADOS -->
+        <h4 align="center">Venda Realizadas</h4>
+
+        <div style="width: 100%; height: 250px; overflow-y: scroll; float: left; margin-bottom: 100px">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col" style="text-align: center;">ID Venda</th>
+                    <th scope="col" style="text-align: center;">Valor Total</th>
+                    <th scope="col" style="text-align: center;">Qtde de Items</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+
+                $resvenda = json_decode($venda->ListarVenda());
+
+                //                        print_r($funcionario->ListarFuncionario());
+                //                        exit();
+                if ($resvenda->success and $resvenda->count > 0) {
+                    foreach ($resvenda->data as $data) {
+                        ?>
+                        <tr>
+                            <td style="text-align: center;"><?php echo($data->id); ?></td>
+                            <td style="text-align: center;"><?php echo($data->vlr_total); ?></td>
+                            <td style="text-align: center;"><?php echo($data->qtde_items); ?></td>
+                        </tr>
+                        <?php
+
+                    }
+
+                } else {
+                    ?>
+                    <tr>
+                        <td colspan="6" style="text-align: center">Nenhum funcionário cadastrado</td>
+                    </tr>
+                    <?php
+                }
+                ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

@@ -26,9 +26,9 @@ if (isset($_GET['controller'])) {
             $response = $controller_venda->cadVenda();
 
             if (json_decode($response)->success){
-                $utils->headerWithId('cupom_fiscal', json_decode($response)->data->id);
+                $utils->headerWithError('registro_de_pedidos', true);
             }else{
-                $utils->headerWithError('registro_de_pedidos',true);
+                $utils->headerWithError('registro_de_pedidos',false);
             }
             break;
 

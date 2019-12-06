@@ -32,13 +32,19 @@ class controllerVenda
 
     public function pegaVenda()
     {
-        $this->venda = json_decode($_COOKIE['compraope06122019']); // Fulano
+        if (isset($_COOKIE['compraope06122019'])){
+            $this->venda = json_decode($_COOKIE['compraope06122019']); // Fulano
 
-        return $postEnd = array(
-            'id_funcionario' => 1,
-            'vlr_final' => $this->somaAPorraToda($this->venda),
-            'id_cliente' => 1
-        );
+//            $this->breakTest($this->venda);
+
+            return $postEnd = array(
+                'id_funcionario' => 1,
+                'vlr_final' => $this->somaAPorraToda($this->venda),
+                'id_cliente' => 1
+            );
+        }else{
+            return null;
+        }
     }
 
 
@@ -53,25 +59,39 @@ class controllerVenda
 
     public function cadVenda(){
 
+
         $resVenda= $this->modelVenda->Insert($this->pegaVenda());
 
-        if (json_decode($resVenda)->success) {
-            foreach ($this->venda as $data){
-                $resItem = $this->controllerItemVenda->cadItemsVenda(json_decode($resVenda)->data->id,$data->id, $data->qtd);
-                if (json_decode($resItem)->success){
+        if ($resVenda == null){
+            return json_encode($this->Utils->getFields(false));
+        }else{
+            unset($_COOKIE['compraope06122019']);
+            setcookie('compraope06122019', null, -1, '/');
 
-                }else{
-                    return json_encode($this->Utils->getFields(false));
+            if (json_decode($resVenda)->success) {
+                foreach ($this->venda as $data){
+                    $resItem = $this->controllerItemVenda->cadItemsVenda(json_decode($resVenda)->data->id,$data->id, $data->qtd);
+                    if (json_decode($resItem)->success){
+
+                    }else{
+                        return json_encode($this->Utils->getFields(false));
+                    }
                 }
+                return $resVenda;
+            } else {
+                return json_encode($this->Utils->getFields(false));
             }
-            return $resVenda;
-        } else {
-            print_r("Falha");
-            print("</br>");
         }
-
-
-
     }
 
+    public function ListarVenda($mock = false)
+    {
+        $resVenda = $this->modelVenda->Listar();
+
+        if (json_decode($resVenda)->success) {
+            return $resVenda;
+        } else {
+            $this->Utils->header($this->page, json_decode($resVenda)->message);
+        }
+    }
 }
