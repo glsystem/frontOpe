@@ -184,6 +184,8 @@
 
                         $resFuncionario = json_decode($funcionario->ListarFuncionario());
 
+//                        print_r($funcionario->ListarFuncionario());
+//                        exit();
                         if ($resFuncionario->success and $resFuncionario->count > 0) {
                             foreach ($resFuncionario->data as $data) {
                                 ?>

@@ -8,18 +8,28 @@ use Src\controllers\controllerFornecedores;
 use Src\Controllers\controllerFuncionario;
 use Src\Controllers\controllerLogin;
 use Src\controllers\controllerProduto;
+use Src\controllers\controllerVenda;
+use Src\Utils\Utils;
 
 if (isset($_GET['controller'])) {
     $controll_funcionario = new controllerFuncionario();
     $controller_login = new controllerLogin();
     $controller_fornecedor = new controllerFornecedores();
     $controller_produto = new controllerProduto();
+    $controller_venda = new controllerVenda();
+    $utils = new Utils();
 
     $controller = $_GET['controller'];
 
     switch ($controller) {
         case 'registrarPedidos':
-            header("Location: http://localhost/server/cupom-fiscal.php");
+            $response = $controller_venda->cadVenda();
+
+            if (json_decode($response)->success){
+                $utils->headerWithId('cupom_fiscal', json_decode($response)->data->id);
+            }else{
+                $utils->headerWithError('registro_de_pedidos',true);
+            }
             break;
 
         case 'login':

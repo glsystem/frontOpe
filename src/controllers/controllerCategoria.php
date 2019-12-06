@@ -6,7 +6,7 @@ use Src\models\modelProduto;
 use Src\models\modelSubCategoria;
 use Src\Utils\Utils;
 
-class controllerSubCategoria
+class controllerCategoria
 {
 
     private $modelSubCategoria;
@@ -20,7 +20,7 @@ class controllerSubCategoria
         $this->page = "cad_produtos";
     }
 
-    public function ListarSubCategoria($mock = false)
+    public function ListarCategoria($mock = false)
     {
         $resProduto = $this->modelSubCategoria->Listar();
 

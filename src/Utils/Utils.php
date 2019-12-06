@@ -9,7 +9,7 @@ class Utils
     public function baseUrl(){
         return "http://localhost:8000/v0/api/";
     }
-    public function getFields() : array
+    public function getFields($error = false) : array
     {
         return [
             'success' => null,
@@ -26,6 +26,24 @@ class Utils
 
         header('Location:index.php?page='. $page .'&message=' . $message . '&update=' . $update);
 
+    }
+
+    public function headerWithId(String $page, int $id = 0){
+
+        if ($id != 0){
+            header('Location:index.php?page='. $page .'&id=' . $id);
+        }else {
+            header('Location:index.php?page='. $page);
+        }
+    }
+
+    public function headerWithError(String $page, bool $error = false){
+
+        if ($error){
+            header('Location:index.php?page='. $page .'&error=' . $error);
+        }else {
+            header('Location:index.php?page='. $page);
+        }
     }
 
     public function tratativeSuccess($resEndereco = null, $resFuncionario = null)

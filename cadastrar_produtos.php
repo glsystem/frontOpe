@@ -2,11 +2,11 @@
 require_once(__DIR__ . "/Composer/autoload.php");
 
 use Src\controllers\controllerProduto;
-use Src\controllers\controllerSubCategoria;
+use Src\controllers\controllerCategoria;
 use Src\Utils\Utils;
 
 $utils = new Utils();
-$controller = new controllerSubCategoria();
+$controller = new controllerCategoria();
 $controllerProduto = new controllerProduto();
 
 ?>
@@ -52,7 +52,7 @@ $controllerProduto = new controllerProduto();
                         </div>
                         <div class="form-group col-md-4">
                             <select id="id_tipo_produto" class="form-control" name="sl_receita" required>
-                                <?php $resSubCat = json_decode($controller->ListarSubCategoria()); ?>
+                                <?php $resSubCat = json_decode($controller->ListarCategoria()); ?>
                                 <?php $resProduto = json_decode($controllerProduto->ListarProduto()); ?>
 
                                 <option selected>Receita</option>

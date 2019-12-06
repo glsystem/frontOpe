@@ -8,9 +8,14 @@ use Src\Utils\Utils;
 $utils = new Utils();
 $controller = new controllerCategoria();
 $controllerProduto = new controllerProduto();
+
+if (isset($_GET['error'])){
+    echo "<script>alert(\"Erro ao finalizar a compra\");</script>";
+}
 ?>
 <script type="text/javascript">
     function insere_item_na_lista(id){
+        // localStorage.setItem('produtosEscolhidos', id);
         var prod = $('#item'+id).html();
         var produto = JSON.parse(JSON.parse(prod));
         var total = $('#total_pedido').text().replace('R$','').trim();
@@ -24,11 +29,16 @@ $controllerProduto = new controllerProduto();
                 }
             }
         }
-        if(localStorage.getItem('produtosEscolhidos').length > 0){
-            localStorage.setItem('produtosEscolhidos', localStorage.getItem('produtosEscolhidos')+';'+JSON.stringify(produtoSelecionado));
+        if(localStorage.getItem('produtosEscolhidos')){
+            if(localStorage.getItem('produtosEscolhidos').length > 0){
+                localStorage.setItem('produtosEscolhidos', localStorage.getItem('produtosEscolhidos')+';'+JSON.stringify(produtoSelecionado));
+            }else{
+                localStorage.setItem('produtosEscolhidos', JSON.stringify(produtoSelecionado));
+            }
         }else{
             localStorage.setItem('produtosEscolhidos', JSON.stringify(produtoSelecionado));
         }
+
         resultado = transformaTextoEmJson();
         console.log('resultado')
         console.log(resultado); 
@@ -77,9 +87,17 @@ $controllerProduto = new controllerProduto();
         for(i in listaProdutos){
             console.log(listaProdutos)
         }
-        localStorage.setItem('produtosEscolhidos',"");
+        setCookie("compraope06122019", JSON.stringify(listaProdutos), 1)
         window.location.reload();
     }
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        var expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
     function reduzDaLista(id){
         var prod = $('#item_venda_'+id).html();
         var produto = JSON.parse(prod);
@@ -239,7 +257,7 @@ $controllerProduto = new controllerProduto();
                     <!-- VALOR TOTAL DO PEDIDO -->
                     <h4 style="float: left;" id="total_pedido">R$ 00.00</h4>
 
-                    <input onclick="cadastrar()" class="btn_success" name="btn_enviar" value="Finalizar Pedido">
+                    <input onclick="cadastrar()" type="submit" class="btn_success" name="btn_enviar" value="Finalizar Pedido">
                 </form>
             </div>
         </div>

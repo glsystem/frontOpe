@@ -26,4 +26,20 @@ class controllerItemVenda
         print_r($res);
         exit();
     }
+
+    public function parseJson($idVenda, $idProd, $qtd)
+    {
+
+        return $postEnd = array(
+            'id_venda' => $idVenda,
+            'id_produto' => $idProd,
+            'qtde' => $qtd
+        );
+    }
+
+    public function cadItemsVenda($idVenda, $idProd, $qtd){
+
+        return $this->modelItemVenda->Insert($this->parseJson($idVenda, $idProd, $qtd));
+
+    }
 }

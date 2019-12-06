@@ -2,22 +2,24 @@
 
 namespace Src\controllers;
 
-use Src\models\modelMock;
 use Src\models\modelVenda;
 use Src\Utils\Utils;
 
 class controllerVenda
 {
     private $modelVenda;
+    private $controllerItemVenda;
     private $Utils;
     private $page;
+    private $venda ;
 
     public function __construct()
     {
         #Cria uma Instancia das Models
         $this->modelVenda = new modelVenda();
+        $this->controllerItemVenda = new controllerItemVenda();
         $this->Utils = new Utils();
-        $this->page = "cad_funcionarios";
+        $this->page = "registro_de_pedidos";
     }
 
     // Passando as resposta do servidor como parametro ele printa formatando com json
@@ -28,105 +30,48 @@ class controllerVenda
         exit();
     }
 
-    private function pegaVenda()
+    public function pegaVenda()
     {
+        $this->venda = json_decode($_COOKIE['compraope06122019']); // Fulano
 
         return $postEnd = array(
-            'id_receita' => intval($_POST['sl_receita']),
-            'Valor' => floatval($_POST['text_preco_produto']),
-//            'id_categoria' => intval($_POST['sl_categoria']),
-            'id_subcategoria' => intval($_POST['sl_sub_categoria'])
-//            'bairro' => $_POST['sl_fornecedor'], não tem no banco
-//            'numero' => intval($_POST['num_home']),
-//            'complemento' => $_POST['complemento']
+            'id_funcionario' => 1,
+            'vlr_final' => $this->somaAPorraToda($this->venda),
+            'id_cliente' => 1
         );
     }
 
 
-    public function cadProduto($mock = false)
-    {
-        #Resgata os valores da pagina via POST se a variavel $MOCK entiver false
-        if ($mock) {
-            $modelMock = new modelMock();
-            $postEnd = $modelMock->mockProduto();
+    private function somaAPorraToda($valor){
+        $soma = 0;
+
+        foreach ($valor as $data) {
+            $soma = $soma + ($data->valor * $data->qtd);
+        }
+        return $soma;
+    }
+
+    public function cadVenda(){
+
+        $resVenda= $this->modelVenda->Insert($this->pegaVenda());
+
+        if (json_decode($resVenda)->success) {
+            foreach ($this->venda as $data){
+                $resItem = $this->controllerItemVenda->cadItemsVenda(json_decode($resVenda)->data->id,$data->id, $data->qtd);
+                if (json_decode($resItem)->success){
+
+                }else{
+                    return json_encode($this->Utils->getFields(false));
+                }
+            }
+            return $resVenda;
         } else {
-
-            $postEnd = $this->pegaVenda();
-
+            print_r("Falha");
+            print("</br>");
         }
 
-        $resProduto = $this->modelVenda->Insert($postEnd);
 
-        if (json_decode($resProduto)->success) {
-            $this->Utils->header($this->page, json_decode($resProduto)->message);
-        } else {
-            $this->Utils->header($this->page, json_decode($resProduto)->message);
-        }
-
-        #Chama a funcao para inserir um Produto e retorna os valores para o Router
-    }
-
-    public function ListarProduto($mock = false)
-    {
-        $resProduto = $this->modelVenda->Listar();
-
-        if (json_decode($resProduto)->success) {
-            return $resProduto;
-        } else {
-            $this->Utils->header($this->page, json_decode($resProduto)->message);
-        }
-    }
-
-    public function BuscarProdutoPorId($mock = false, $id = 0)
-    {
-
-        if (isset($_GET['idEnd'])) {
-            $resProduto = $this->modelVenda->ListarPorId($_GET['idEnd']);
-
-            if (json_decode($resProduto)->success) {
-                return $resProduto;
-            } else {
-                $this->Utils->header($this->page, json_decode($resProduto)->message);
-            }
-        }elseif ( $id != 0){
-            $resProduto = $this->modelVenda->ListarPorId($id);
-
-            if (json_decode($resProduto)->success) {
-                return $resProduto;
-            } else {
-                $this->Utils->header($this->page, json_decode($resProduto)->message);
-            }
-        }
 
     }
 
-    public function EditarProduto($mock = false, $id = 0)
-    {
-        if ($id != 0 ){
-            $postEnd = $this->pegaVenda();
-
-            $resProduto = $this->modelVenda->Editar($postEnd, $id);
-
-            if (json_decode($resProduto)->success) {
-                return $resProduto;
-            } else {
-                return $this->Utils->header($this->page, json_decode($resProduto)->message);
-            }
-        }
-    }
-
-    public function DeleteProduto($id, $mock = false)
-    {
-
-        if (isset($id)) {
-            $resProduto = $this->modelVenda->Delete($id);
-
-            if (json_decode($resProduto)->success){
-                return $resProduto;
-            }
-        }
-
-        //header('Location: cadastrar_funcionarios.php?message=' . json_encode($resProduto));
-
-    }
 }
